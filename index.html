@@ -1,320 +1,338 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>MundoGirasoles</title>
-  <link rel="icon" href="favicon.png" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
-      background-color: #4292c7;
-      background-blend-mode: overlay;
-      background-size: 180px 180px;
-      background-position: center;
-      background-repeat: repeat;
-      color: #fdf5dc;
-      font-family: 'Arial', sans-serif;
-      height: 100vh;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MundoGirasoles</title>
+<link rel="icon" href="favicon.png" type="image/x-icon" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
-    #loader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: transparent;
-      z-index: 99999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: all;
-    }
+<style>
+  body {
+    margin: 0;
+    background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
+    background-color: #4292c7;
+    background-blend-mode: overlay;
+    background-size: 180px 180px;
+    background-position: center;
+    background-repeat: repeat;
+    color: #fdf5dc;
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    overflow-x: hidden;
+    cursor: none;
+  }
 
-    #big-petal {
-      position: absolute;
-      width: 300vw;
-      height: 300vw;
-      max-width: 1200px;
-      max-height: 1200px;
-      background: radial-gradient(circle at 50% 50%, #fff176 30%, #fdd835 80%);
-      border-radius: 50% 50% 60% 60% / 60% 60% 50% 50%;
-      filter: drop-shadow(0 0 20px #f9d71c);
-      box-shadow: 0 0 40px #fbc02dcc;
-      transform-origin: center bottom;
-      animation: petalPass 1s forwards ease-in-out;
-    }
+  /* Loader con pétalo grande */
+  #loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+  }
 
-    @keyframes petalPass {
-      0% { opacity: 1; transform: translateX(-150vw) rotate(0deg); }
-      60% { opacity: 1; transform: translateX(0) rotate(0deg); }
-      100% { opacity: 0; transform: translateX(150vw) rotate(90deg); }
-    }
+  #big-petal {
+    position: absolute;
+    width: 300vw;
+    height: 300vw;
+    max-width: 1200px;
+    max-height: 1200px;
+    background: radial-gradient(circle at 50% 50%, #fff176 30%, #fdd835 80%);
+    border-radius: 50% 50% 60% 60% / 60% 60% 50% 50%;
+    filter: drop-shadow(0 0 20px #f9d71c);
+    box-shadow: 0 0 40px #fbc02dcc;
+    transform-origin: center bottom;
+    animation: petalPass 1s forwards ease-in-out;
+  }
 
-    #main-content {
-      position: relative;
-      z-index: 10;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      gap: 20px;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .logo {
-      width: 70vw;
-      max-width: 350px;
-      animation: float 3s ease-in-out infinite;
-      height: auto;
-      margin: 9px 0 0 0;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0px); }
-    }
-
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: center;
-      width: 100%;
-      max-width: 250px;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 8px;
-      background-color: #33739d;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: background 0.3s;
-      color: #fdf5dc;
-      font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .btn:hover {
-      background-color: #2c5d7b;
-    }
-
-    .btn img {
-      max-width: 80px;
-      max-height: 30px;
-      height: auto;
-      display: block;
-      filter: brightness(0) invert(1);
-    }
-
-    #pucha-btn {
-      position: relative;
-      overflow: hidden;
-      margin-top: 10px;
-      width: 180px;
-      padding: 8px 14px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      background-color: #33739d;
-      color: #fdf5dc;
-      border-radius: 10px;
-      user-select: none;
-      box-shadow: 0 0 6px #fdf5dc33;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    #pucha-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(253, 245, 220, 0.3), transparent);
-      transform: skewX(-20deg);
-    }
-
-    #pucha-btn:hover::before {
-      animation: shine 0.8s forwards;
-    }
-
-    @keyframes shine {
-      to { left: 125%; }
-    }
-
-    #pucha-btn:hover,
-    #pucha-btn:active {
-      background-color: #2c5d7b;
-      color: #fdf5dc;
-      box-shadow: 0 0 10px #fdf5dc55;
-    }
-
-    #frase {
-      margin-top: 12px;
-      max-width: 260px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: #fdf5dc;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      user-select: none;
-      min-height: 40px;
-    }
-
-    #frase.show {
+  @keyframes petalPass {
+    0% {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-150vw) rotate(0deg);
     }
-
-    #custom-cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 48px;
-      height: 48px;
-      pointer-events: none;
-      background: url('cursor-girasol-64px.png') no-repeat center center;
-      background-size: contain;
-      transform-origin: 50% 50%;
-      transition: transform 0.2s ease, filter 0.2s ease;
-      z-index: 9999;
-      cursor: none;
+    60% {
+      opacity: 1;
+      transform: translateX(0) rotate(0deg);
     }
-
-    #custom-cursor.hovered {
-      transform: scale(1.4);
-      filter: drop-shadow(0 0 5px #ffd700);
-    }
-
-    #custom-cursor.clicked {
-      animation: clickBounce 0.3s ease forwards;
-    }
-
-    @keyframes clickBounce {
-      0% { transform: scale(1.4); }
-      50% { transform: scale(1.6); }
-      100% { transform: scale(1.4); }
-    }
-
-    #left-wing {
-      animation: flap-wing-left 0.6s ease-in-out infinite;
-      transform-origin: 14px 24px;
-    }
-
-    #right-wing {
-      animation: flap-wing-right 0.6s ease-in-out infinite;
-      transform-origin: 34px 24px;
-    }
-
-    .pollen {
-      position: fixed;
-      width: 6px;
-      height: 6px;
-      background: radial-gradient(circle, #fff9c4 0%, #f9d71c 80%, transparent 100%);
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0.8;
-      filter: drop-shadow(0 0 3px #f9d71c);
-      animation: fadeOut 0.8s forwards;
-      z-index: 9999;
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-    }
-
-    #dots-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .dot {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background-color: #fff;
-      border-radius: 50%;
+    100% {
       opacity: 0;
-      animation: blink 1.5s ease-in-out infinite, floatDots 4s ease-in-out infinite;
+      transform: translateX(150vw) rotate(90deg);
     }
+  }
 
-    @keyframes blink {
-      0% { opacity: 0; transform: scale(0.5); }
-      50% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(0.5); }
-    }
+  /* Contenido principal */
+  #main-content {
+    position: relative; /* para controlar z-index */
+    z-index: 10; /* encima de los puntitos */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
 
-    @keyframes floatDots {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-      100% { transform: translateY(0); }
-    }
+  .logo {
+    width: 70vw;
+    max-width: 350px;
+    animation: float 3s ease-in-out infinite;
+    height: auto;
+    margin: 9px 0 0 0; /* <- Margen superior para bajar el logo */
+  }
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+  }
 
-    @media (max-width: 600px) {
-      .buttons { max-width: 100%; flex-direction: column; padding: 0 10px; }
-      .btn img { max-width: 60px; max-height: 25px; }
-      .logo { width: 75vw; max-width: 280px; }
-      #pucha-btn { width: 100%; font-size: 1rem; padding: 12px; }
-      #frase { max-width: 100vw; font-size: 1rem; }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+    max-width: 250px;
+  }
+  .btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #33739d;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.3s;
+    cursor: none !important;
+    color: #fdf5dc;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .btn:hover {
+    background-color: #2c5d7b;
+  }
+  .btn img {
+    max-width: 80px;
+    max-height: 30px;
+    height: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+  }
+  #pucha-btn {
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+    width: 180px;
+    padding: 8px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background-color: #33739d;
+    color: #fdf5dc;
+    border-radius: 10px;
+    cursor: none;
+    user-select: none;
+    box-shadow: 0 0 6px #fdf5dc33;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  #pucha-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(253, 245, 220, 0.3), transparent);
+    transform: skewX(-20deg);
+  }
+  #pucha-btn:hover::before {
+    animation: shine 0.8s forwards;
+  }
+  @keyframes shine {
+    to {
+      left: 125%;
     }
+  }
+  #pucha-btn:hover,
+  #pucha-btn:active {
+    background-color: #2c5d7b;
+    color: #fdf5dc;
+    box-shadow: 0 0 10px #fdf5dc55;
+  }
+  #pucha-btn.clicked {
+    animation: bounceBtn 0.4s ease;
+  }
+  @keyframes bounceBtn {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
 
-    /* Ocultar sólo el cursor custom en móviles, pero dejar la abeja visible */
-    @media (hover: none) and (pointer: coarse) {
-      #custom-cursor {
-        display: none !important;
-      }
-      .btn, #pucha-btn {
-        cursor: pointer !important;
-      }
-      body {
-        cursor: default !important;
-      }
+  #frase {
+    margin-top: 12px;
+    max-width: 260px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fdf5dc;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    user-select: none;
+    min-height: 40px;
+  }
+  #frase.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+    background: url('cursor-girasol-64px.png') no-repeat center center;
+    background-size: contain;
+    transform-origin: 50% 50%;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    z-index: 9999;
+  }
+  #custom-cursor.hovered {
+    transform: scale(1.4);
+    filter: drop-shadow(0 0 5px #ffd700);
+  }
+  @keyframes clickBounce {
+    0% { transform: scale(1.4); }
+    50% { transform: scale(1.6); }
+    100% { transform: scale(1.4); }
+  }
+  #custom-cursor.clicked {
+    animation: clickBounce 0.3s ease forwards;
+  }
+
+  @keyframes flap-wing-left {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-25deg); }
+  }
+  @keyframes flap-wing-right {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(25deg); }
+  }
+  #left-wing {
+    animation: flap-wing-left 0.6s ease-in-out infinite;
+    transform-origin: 14px 24px;
+  }
+  #right-wing {
+    animation: flap-wing-right 0.6s ease-in-out infinite;
+    transform-origin: 34px 24px;
+  }
+
+  .pollen {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #fff9c4 0%, #f9d71c 80%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 3px #f9d71c);
+    animation: fadeOut 0.8s forwards;
+    z-index: 9999;
+  }
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
     }
-  </style>
+  }
+
+  @media (max-width: 600px) {
+    .buttons { max-width: 100%; }
+    .btn img { max-width: 60px; max-height: 25px; }
+    .logo { width: 80vw; max-width: 280px; }
+    #pucha-btn { width: 90vw; font-size: 1rem; padding: 10px; }
+    #frase { max-width: 90vw; font-size: 0.95rem; }
+  }
+  @media (hover: none) and (pointer: coarse) {
+    #custom-cursor {
+      display: none !important;
+    }
+    /* La abeja sigue visible y animada */
+    .btn, #pucha-btn {
+      cursor: pointer !important;
+    }
+    body {
+      cursor: default !important;
+    }
+  }
+
+  /* NUEVO: puntitos blancos flotantes */
+  #dots-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5; /* debajo del contenido, arriba del fondo */
+  }
+  .dot {
+    position: absolute;
+    width: 2px;    /* puntitos más pequeños */
+    height: 2px;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: blink 1.5s ease-in-out infinite, floatDots 4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.5); }
+  }
+  @keyframes floatDots {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+  }
+</style>
 </head>
 <body>
 
-  <div id="loader"><div id="big-petal"></div></div>
+  <div id="loader">
+    <div id="big-petal"></div>
+  </div>
+
   <div id="dots-container"></div>
 
   <div id="main-content">
     <img class="logo" src="MUNDO-GIRASOLES-LOGO.png" alt="Mundo Girasoles Logo" />
+
     <div class="buttons">
       <a class="btn" href="https://www.youtube.com/@mundogirasoles" target="_blank"><img src="BOTON YOUTUBE.webp" alt="YouTube" /></a>
       <a class="btn" href="https://www.instagram.com/notasdeungirasol?igsh=d3VtNzJ1c2JyZ2M3&utm_source=qr" target="_blank"><img src="BOTON-INSTAGRAM.png" alt="Instagram" /></a>
       <button id="pucha-btn">PuChA Y Sé FeLIz</button>
     </div>
+
     <div id="frase"></div>
   </div>
 
   <div id="custom-cursor"></div>
 
-  <svg id="bee" width="24" height="24" viewBox="0 0 48 48" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;">
+  <svg id="bee" width="24" height="24" viewBox="0 0 48 48" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; filter: drop-shadow(0 0 2px #ffec8b);">
     <g>
       <ellipse id="left-wing" cx="12" cy="16" rx="4" ry="7" fill="rgba(220,240,255,0.7)" stroke="#000" stroke-width="0.8"/>
       <ellipse id="right-wing" cx="28" cy="16" rx="4" ry="7" fill="rgba(220,240,255,0.7)" stroke="#000" stroke-width="0.8"/>
@@ -329,100 +347,115 @@
     </g>
   </svg>
 
-  <script>
-    const frases = [
-      "¡Disfruta cada día como un girasol al sol!",
-      "La felicidad está en las pequeñas cosas.",
-      "Sigue brillando con luz propia.",
-      "Sé como un girasol: siempre buscando la luz.",
-      "Nunca dejes de crecer y florecer.",
-      "Eres más fuerte de lo que crees.",
-      "Cada día es una nueva oportunidad para ser feliz.",
-      "Mantén el corazón lleno de alegría.",
-      "La vida es mejor con un poco de color y sol.",
-      "Sonríe, que la vida es bella."
-    ];
-    const fraseDiv = document.getElementById('frase');
-    const puchaBtn = document.getElementById('pucha-btn');
+<script>
+  const frases = [
+    "¡Disfruta cada día como un girasol al sol!",
+    "La felicidad está en las pequeñas cosas.",
+    "Sigue brillando con luz propia.",
+    "Sé como un girasol: siempre buscando la luz.",
+    "Nunca dejes de crecer y florecer.",
+    "Eres más fuerte de lo que crees.",
+    "Cada día es una nueva oportunidad para ser feliz.",
+    "Mantén el corazón lleno de alegría.",
+    "La vida es mejor con un poco de color y sol.",
+    "Sonríe, que la vida es bella."
+  ];
+  const fraseDiv = document.getElementById('frase');
+  const puchaBtn = document.getElementById('pucha-btn');
 
-    puchaBtn.addEventListener('click', () => {
-      const frase = frases[Math.floor(Math.random() * frases.length)];
-      fraseDiv.textContent = frase;
-      fraseDiv.classList.remove('show');
-      void fraseDiv.offsetWidth;
-      fraseDiv.classList.add('show');
-    });
+  puchaBtn.addEventListener('click', () => {
+    const randomIndex = Math.floor(Math.random() * frases.length);
+    const frase = frases[randomIndex];
+    fraseDiv.textContent = frase;
+    fraseDiv.classList.remove('show');
+    void fraseDiv.offsetWidth;
+    fraseDiv.classList.add('show');
+  });
 
-    const cursor = document.getElementById('custom-cursor');
-    const buttons = document.querySelectorAll('.btn');
-    window.addEventListener('mousemove', e => {
-      cursor.style.top = (e.clientY - 24) + 'px';
-      cursor.style.left = (e.clientX - 24) + 'px';
-    });
-    buttons.forEach(btn => {
-      btn.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-      btn.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-    });
-    window.addEventListener('mousedown', () => cursor.classList.add('clicked'));
-    window.addEventListener('mouseup', () => {
-      setTimeout(() => cursor.classList.remove('clicked'), 300);
-    });
+  const cursor = document.getElementById('custom-cursor');
+  window.addEventListener('mousemove', e => {
+    cursor.style.top = (e.clientY - 24) + 'px';
+    cursor.style.left = (e.clientX - 24) + 'px';
+  });
+  const buttons = document.querySelectorAll('.btn');
+  buttons.forEach(btn => {
+    btn.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    btn.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+  });
+  window.addEventListener('mousedown', () => cursor.classList.add('clicked'));
+  window.addEventListener('mouseup', () => {
+    setTimeout(() => cursor.classList.remove('clicked'), 300);
+  });
 
-    const bee = document.getElementById('bee');
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let beeX = mouseX, beeY = mouseY;
-    window.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+  const bee = document.getElementById('bee');
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let beeX = mouseX;
+  let beeY = mouseY;
 
-    function createPollen(x, y) {
-      const pollen = document.createElement('div');
-      pollen.classList.add('pollen');
-      pollen.style.left = (x + (Math.random() * 10 - 5)) + 'px';
-      pollen.style.top = (y + (Math.random() * 10 - 5)) + 'px';
-      document.body.appendChild(pollen);
-      setTimeout(() => pollen.remove(), 800);
+  // Seguir mouse en PC
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  // Seguir toque en móviles
+  window.addEventListener('touchmove', e => {
+    if (e.touches.length > 0) {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
     }
+  });
 
-    function animateBee() {
-      beeX += (mouseX - beeX) * 0.15;
-      beeY += (mouseY - beeY) * 0.15;
-      bee.style.left = (beeX - 12) + 'px';
-      bee.style.top = (beeY - 12) + 'px';
-      if (Math.random() < 0.3) createPollen(beeX, beeY);
-      requestAnimationFrame(animateBee);
-    }
-    animateBee();
+  function createPollen(x, y) {
+    const pollen = document.createElement('div');
+    pollen.classList.add('pollen');
+    pollen.style.left = (x + (Math.random() * 10 - 5)) + 'px';
+    pollen.style.top = (y + (Math.random() * 10 - 5)) + 'px';
+    document.body.appendChild(pollen);
+    setTimeout(() => pollen.remove(), 800);
+  }
 
-    const dotContainer = document.getElementById('dots-container');
-    const numDots = 60;
-    for (let i = 0; i < numDots; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'dot';
-      dot.style.top = Math.random() * 100 + 'vh';
-      dot.style.left = Math.random() * 100 + 'vw';
-      dot.style.animationDelay = (Math.random() * 1.5) + 's';
-      dotContainer.appendChild(dot);
-    }
+  function animateBee() {
+    beeX += (mouseX - beeX) * 0.15;
+    beeY += (mouseY - beeY) * 0.15;
+    bee.style.left = (beeX - 12) + 'px';
+    bee.style.top = (beeY - 12) + 'px';
+    if (Math.random() < 0.3) createPollen(beeX, beeY);
+    requestAnimationFrame(animateBee);
+  }
+  animateBee();
 
-    const loader = document.getElementById('loader');
-    const mainContent = document.getElementById('main-content');
-    const bigPetal = document.getElementById('big-petal');
+  // Crear puntitos blancos flotantes
+  const dotContainer = document.getElementById('dots-container');
+  const numDots = 60;
+  for (let i = 0; i < numDots; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.style.top = Math.random() * 100 + 'vh';
+    dot.style.left = Math.random() * 100 + 'vw';
+    dot.style.animationDelay = (Math.random() * 1.5) + 's';
+    dotContainer.appendChild(dot);
+  }
 
-    const animDuration = 1000;
+  // Mostrar contenido tras carga
+  const loader = document.getElementById('loader');
+  const mainContent = document.getElementById('main-content');
+  const bigPetal = document.getElementById('big-petal');
 
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        mainContent.style.opacity = '1';
-      }, animDuration * 0.6);
-    });
+  const animDuration = 1000; // Duración animación en ms
 
-    bigPetal.addEventListener('animationend', () => {
-      loader.style.display = 'none';
-    });
-  </script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      mainContent.style.opacity = '1';
+    }, animDuration * 0.6);
+  });
+
+  bigPetal.addEventListener('animationend', () => {
+    loader.style.display = 'none';
+  });
+</script>
+
 </body>
 </html>
 
