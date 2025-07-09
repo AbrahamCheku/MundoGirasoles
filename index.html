@@ -134,6 +134,7 @@
       user-select: none;
       box-shadow: 0 0 6px #fdf5dc33;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     #pucha-btn::before {
@@ -194,6 +195,7 @@
       transform-origin: 50% 50%;
       transition: transform 0.2s ease, filter 0.2s ease;
       z-index: 9999;
+      cursor: none;
     }
 
     #custom-cursor.hovered {
@@ -281,10 +283,17 @@
       #frase { max-width: 100vw; font-size: 1rem; }
     }
 
+    /* Ocultar sólo el cursor custom en móviles, pero dejar la abeja visible */
     @media (hover: none) and (pointer: coarse) {
-      #custom-cursor, #bee { display: none !important; }
-      .btn, #pucha-btn { cursor: pointer !important; }
-      body { cursor: default !important; }
+      #custom-cursor {
+        display: none !important;
+      }
+      .btn, #pucha-btn {
+        cursor: pointer !important;
+      }
+      body {
+        cursor: default !important;
+      }
     }
   </style>
 </head>
